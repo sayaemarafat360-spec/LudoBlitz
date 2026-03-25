@@ -1,6 +1,9 @@
 package com.ludoblitz.app.di
 
 import android.content.Context
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.ludoblitz.app.data.firebase.FirebaseAuthManager
 import com.ludoblitz.app.data.firebase.FirebaseConfigManager
 import com.ludoblitz.app.data.firebase.FirebaseDatabaseManager
@@ -152,5 +155,25 @@ object AppModule {
     @Singleton
     fun provideFirebaseConfigManager(): FirebaseConfigManager {
         return FirebaseConfigManager()
+    }
+
+    // ==================== Firebase SDK Providers ====================
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFirestore(): FirebaseFirestore {
+        return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseDatabase(): FirebaseDatabase {
+        return FirebaseDatabase.getInstance()
     }
 }

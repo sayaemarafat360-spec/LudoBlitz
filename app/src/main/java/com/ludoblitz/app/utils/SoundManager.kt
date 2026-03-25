@@ -210,6 +210,27 @@ class SoundManager @Inject constructor(
     }
 
     /**
+     * Play sound by name (for dynamic sound calls)
+     */
+    fun playSound(soundName: String) {
+        if (!isSoundEnabled()) return
+        when (soundName.lowercase()) {
+            "dice_roll", "dice_rolling" -> playDiceRoll()
+            "token_move" -> playTokenMove()
+            "token_kill", "capture" -> playCapture()
+            "token_home" -> playTokenHome()
+            "six_rolled", "six" -> playSixRolled()
+            "victory", "win" -> playVictory()
+            "defeat", "lose" -> playDefeat()
+            "button_click", "click" -> playButtonClick()
+            "coin_collect", "coins" -> playCoinCollect(100)
+            "level_up" -> playLevelUp()
+            "game_start" -> playGameStart()
+            else -> playButtonClick() // Default sound
+        }
+    }
+
+    /**
      * Check if sound is enabled
      */
     private fun isSoundEnabled(): Boolean {

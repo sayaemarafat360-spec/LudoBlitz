@@ -136,6 +136,9 @@ dependencies {
     // Realtime Database
     implementation("com.google.firebase:firebase-database-ktx")
     
+    // Firestore Database
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    
     // Remote Config - For dynamic app control
     implementation("com.google.firebase:firebase-config-ktx")
     

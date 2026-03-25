@@ -193,4 +193,8 @@ class LudoBlitzApp : Application() {
     fun getFirebaseAuthManager(): FirebaseAuthManager = firebaseAuthManager
     
     fun getFirebaseConfigManager(): FirebaseConfigManager = firebaseConfigManager
+    
+    fun playSound(soundName: String) {
+        soundManager.playSound(soundName)
+    }
 }
