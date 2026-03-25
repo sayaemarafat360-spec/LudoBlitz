@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A1A2E"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Settings" android:textColor="#FFF" android:textSize="24sp" android:textStyle="bold"/>
+
+    <androidx.appcompat.widget.SwitchCompat android:id="@+id/swSound"
+        android:layout_width="match_parent" android:layout_height="48dp"
+        android:layout_marginTop="24dp" android:text="Sound" android:textColor="#FFF"/>
+
+    <androidx.appcompat.widget.SwitchCompat android:id="@+id/swVibro"
+        android:layout_width="match_parent" android:layout_height="48dp"
+        android:layout_marginTop="8dp" android:text="Vibration" android:textColor="#FFF"/>
+
+    <androidx.appcompat.widget.SwitchCompat android:id="@+id/swDark"
+        android:layout_width="match_parent" android:layout_height="48dp"
+        android:layout_marginTop="8dp" android:text="Dark Mode" android:textColor="#FFF"/>
+
+</LinearLayout>

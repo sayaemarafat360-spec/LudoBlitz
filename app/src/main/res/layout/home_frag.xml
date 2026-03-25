@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A1A2E"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView android:id="@+id/tvName" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Welcome" android:textColor="#FFF" android:textSize="24sp" android:textStyle="bold"/>
+
+    <TextView android:id="@+id/tvLevel" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Level 1" android:textColor="#AAA" android:textSize="14sp"/>
+
+    <TextView android:id="@+id/tvCoins" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" android:text="1000" android:textColor="#FFD700" android:textSize="18sp"/>
+
+    <Button android:id="@+id/btnPlay" android:layout_width="match_parent" android:layout_height="60dp"
+        android:layout_marginTop="32dp" android:text="Play" android:textSize="18sp"/>
+
+    <Button android:id="@+id/btnSettings" android:layout_width="match_parent" android:layout_height="60dp"
+        android:layout_marginTop="16dp" android:text="Settings" android:textSize="18sp"/>
+
+</LinearLayout>
