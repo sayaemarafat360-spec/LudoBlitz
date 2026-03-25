@@ -249,16 +249,16 @@
     <string name="notif_achievement_title">🏆 Achievement Unlocked!</string>
     <string name="notif_level_up_title">⭐ Level Up!</string>
     <string name="notif_level_up_body">You reached Level %d!</string>
-    <string name="notif_level_up_big">Congratulations! You reached Level %d!\n\nRewards: %s</string>
+    <string name="notif_level_up_big">Congratulations! You reached Level %1$d!\n\nRewards: %2$s</string>
     
     <string name="notif_spin_wheel_title">🎰 Free Spin Available!</string>
     <string name="notif_spin_wheel_body">Spin the Lucky Wheel for free rewards!</string>
     
     <string name="notif_tournament_title">🏆 Tournament Starting Soon!</string>
-    <string name="notif_tournament_body">%s starts at %s. Don\'t miss it!</string>
+    <string name="notif_tournament_body">%1$s starts at %2$s. Don\'t miss it!</string>
     
     <string name="notif_victory_title">🎉 Victory!</string>
-    <string name="notif_victory_body">You won %d coins and %d XP!</string>
+    <string name="notif_victory_body">You won %1$d coins and %2$d XP!</string>
     <string name="notif_game_over_title">Game Over</string>
     <string name="notif_game_over_body">You gained %d XP. Better luck next time!</string>
     

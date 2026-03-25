@@ -81,8 +81,13 @@
     <!-- Currency Colors -->
     <color name="coin_gold">#FFD700</color>
     <color name="coin_gold_dark">#DAA520</color>
+    <color name="coin_gold_light">#FFF8E1</color>
     <color name="gem_purple">#9333EA</color>
     <color name="gem_purple_light">#A855F7</color>
+
+    <!-- Basic Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     
     <!-- Gradient Colors -->
     <color name="gradient_start">#667EEA</color>
