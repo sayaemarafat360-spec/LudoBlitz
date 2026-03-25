@@ -1,25 +1,29 @@
 # Codemagic CI/CD Configuration for Ludo Blitz
-# Separate workflows for Debug and Release builds
+# ================================================
+# This configuration provides two workflows:
+# 1. ludo-blitz-debug - For testing and development
+# 2. ludo-blitz-release - For production builds
+#
+# IMPORTANT: The SHA-1 key will be printed in the build logs.
+# Copy it and add to Firebase Console > Project Settings > Your Apps > Add Fingerprint
 
 workflows:
+  # ============================================
+  # DEBUG WORKFLOW - For Testing & Development
+  # ============================================
   ludo-blitz-debug:
     name: Ludo Blitz Debug Build
     max_build_duration: 30
     environment:
-      java: 17
+      vars:
+        BUILD_TYPE: debug
       groups:
         - firebase_credentials
     scripts:
-      # Fix Gradle wrapper permission
-      - name: Make Gradle Executable
-        script: |
-          chmod +x gradlew
-
-      # Print environment info
       - name: Print Environment Info
         script: |
           echo "=========================================="
-          echo "🎮 LUDO BLITZ - DEBUG BUILD STARTED"
+          echo "🎮 LUDO BLITZ - DEBUG BUILD"
           echo "=========================================="
           echo "Java Version:"
           java -version
@@ -27,15 +31,14 @@ workflows:
           echo "Gradle Version:"
           ./gradlew --version
 
-      # Generate Debug Keystore and SHA-1 Key
       - name: Generate Debug Keystore & SHA-1 Key
         script: |
           echo "=========================================="
-          echo "🔑 GENERATING DEBUG SHA-1 KEY FOR FIREBASE"
+          echo "🔑 GENERATING SHA-1 KEY FOR FIREBASE"
           echo "=========================================="
-
+          
           mkdir -p ~/.android
-
+          
           if [ ! -f ~/.android/debug.keystore ]; then
             echo "Creating new debug keystore..."
             keytool -genkeypair \
@@ -48,36 +51,39 @@ workflows:
               -storepass android \
               -keypass android
           fi
-
+          
           echo ""
           echo "=========================================="
-          echo "🔐 DEBUG SHA-1 FINGERPRINT FOR FIREBASE:"
+          echo "🔐 SHA-1 FINGERPRINT FOR FIREBASE:"
           echo "=========================================="
           echo ""
-          echo "COPY THE SHA-1 VALUE BELOW AND ADD IT TO:"
-          echo "Firebase Console > Project Settings > Your Apps > Add Fingerprint"
+          echo "📋 COPY THE SHA-1 VALUE BELOW AND ADD IT TO:"
+          echo "   Firebase Console > Project Settings > Your Apps > Add Fingerprint"
           echo ""
           echo "------------------------------------------"
-
+          
           SHA1=$(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android -keypass android 2>/dev/null | grep "SHA1:" | head -1 | awk '{print $2}')
-          SHA256=$(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android -keypass android 2>/dev/null | grep "SHA256:" | head -1 | awk '{print $2}')
-
+          
           echo "🔑 SHA-1: $SHA1"
-          echo "🔑 SHA-256: $SHA256"
           echo "------------------------------------------"
           echo ""
+          
+          SHA256=$(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android -keypass android 2>/dev/null | grep "SHA256:" | head -1 | awk '{print $2}')
+          echo "🔑 SHA-256: $SHA256"
+          echo ""
+          
+          echo "SHA-1: $SHA1" > $CM_BUILD_DIR/sha1_debug_key.txt
+          echo "SHA-256: $SHA256" >> $CM_BUILD_DIR/sha1_debug_key.txt
+          echo "Timestamp: $(date)" >> $CM_BUILD_DIR/sha1_debug_key.txt
+          echo "Build Type: Debug" >> $CM_BUILD_DIR/sha1_debug_key.txt
+          
+          echo "=========================================="
 
-          echo "DEBUG SHA-1: $SHA1" > $CM_BUILD_DIR/debug_sha_keys.txt
-          echo "DEBUG SHA-256: $SHA256" >> $CM_BUILD_DIR/debug_sha_keys.txt
-          echo "Timestamp: $(date)" >> $CM_BUILD_DIR/debug_sha_keys.txt
-
-      # Clean Project
       - name: Clean Project
         script: |
           echo "🧹 Cleaning project..."
           ./gradlew clean
 
-      # Build Debug APK
       - name: Build Debug APK
         script: |
           echo "=========================================="
@@ -85,34 +91,27 @@ workflows:
           echo "=========================================="
           ./gradlew assembleDebug --stacktrace
 
-      # Run Lint (optional)
-      - name: Run Lint Check
-        script: |
-          echo "🔍 Running lint check..."
-          ./gradlew lint || true
-
-      # Print Build Info
-      - name: Print Debug Build Information
+      - name: Print Build Information
         script: |
           echo ""
           echo "=========================================="
-          echo "✅ DEBUG BUILD COMPLETED SUCCESSFULLY!"
+          echo "✅ DEBUG BUILD COMPLETED!"
           echo "=========================================="
           echo ""
           echo "📁 APK Location:"
-          find $CM_BUILD_DIR -name "*debug*.apk" -type f
+          find $CM_BUILD_DIR -name "*.apk" -type f
           echo ""
           echo "📊 APK Size:"
-          find $CM_BUILD_DIR -name "*debug*.apk" -type f -exec ls -lh {} \;
+          find $CM_BUILD_DIR -name "*.apk" -type f -exec ls -lh {} \;
           echo ""
-          echo "🔑 Debug SHA Keys:"
-          cat $CM_BUILD_DIR/debug_sha_keys.txt || echo "Debug SHA key file not found"
+          echo "🔑 SHA-1 Key File:"
+          cat $CM_BUILD_DIR/sha1_debug_key.txt
           echo ""
           echo "=========================================="
 
     artifacts:
-      - app/build/outputs/apk/debug/*.apk
-      - debug_sha_keys.txt
+      - app/build/outputs/apk/debug/**/*.apk
+      - sha1_debug_key.txt
 
     publishing:
       email:
@@ -122,24 +121,22 @@ workflows:
           success: true
           failure: true
 
+  # ============================================
+  # RELEASE WORKFLOW - For Production Builds
+  # ============================================
   ludo-blitz-release:
     name: Ludo Blitz Release Build
     max_build_duration: 30
     environment:
-      java: 17
+      vars:
+        BUILD_TYPE: release
       groups:
         - firebase_credentials
     scripts:
-      # Fix Gradle wrapper permission
-      - name: Make Gradle Executable
-        script: |
-          chmod +x gradlew
-
-      # Print environment info
       - name: Print Environment Info
         script: |
           echo "=========================================="
-          echo "🎮 LUDO BLITZ - RELEASE BUILD STARTED"
+          echo "🎮 LUDO BLITZ - RELEASE BUILD"
           echo "=========================================="
           echo "Java Version:"
           java -version
@@ -147,18 +144,47 @@ workflows:
           echo "Gradle Version:"
           ./gradlew --version
 
-      # Prepare Release Keystore
-      - name: Prepare Release Keystore
+      - name: Generate Keystores & SHA-1 Keys
         script: |
           echo "=========================================="
-          echo "🔐 PREPARING RELEASE KEYSTORE"
+          echo "🔑 GENERATING SHA-1 KEYS FOR FIREBASE"
           echo "=========================================="
-
+          
+          mkdir -p ~/.android
+          
+          # Debug Keystore
+          if [ ! -f ~/.android/debug.keystore ]; then
+            echo "Creating debug keystore..."
+            keytool -genkeypair \
+              -alias androiddebugkey \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -dname "CN=Android Debug,O=Android,C=US" \
+              -keystore ~/.android/debug.keystore \
+              -storepass android \
+              -keypass android
+          fi
+          
+          echo ""
+          echo "=========================================="
+          echo "🔐 DEBUG SHA-1 FINGERPRINT:"
+          echo "=========================================="
+          
+          DEBUG_SHA1=$(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android -keypass android 2>/dev/null | grep "SHA1:" | head -1 | awk '{print $2}')
+          echo "🔑 DEBUG SHA-1: $DEBUG_SHA1"
+          
+          # Release Keystore
+          echo ""
+          echo "=========================================="
+          echo "🔐 GENERATING RELEASE KEYSTORE"
+          echo "=========================================="
+          
           if [ -n "$CM_KEYSTORE" ]; then
             echo "Using provided release keystore..."
             echo $CM_KEYSTORE | base64 --decode > $CM_BUILD_DIR/release.keystore
           else
-            echo "No release keystore provided. Creating temporary release keystore..."
+            echo "Creating new release keystore..."
             keytool -genkeypair \
               -alias ludoblitz \
               -keyalg RSA \
@@ -169,66 +195,79 @@ workflows:
               -storepass ludoblitz123 \
               -keypass ludoblitz123
           fi
-
+          
+          echo ""
+          echo "=========================================="
+          echo "🔐 RELEASE SHA-1 FINGERPRINT:"
+          echo "=========================================="
+          
           RELEASE_SHA1=$(keytool -list -v -alias ludoblitz -keystore $CM_BUILD_DIR/release.keystore -storepass ludoblitz123 -keypass ludoblitz123 2>/dev/null | grep "SHA1:" | head -1 | awk '{print $2}')
-          RELEASE_SHA256=$(keytool -list -v -alias ludoblitz -keystore $CM_BUILD_DIR/release.keystore -storepass ludoblitz123 -keypass ludoblitz123 2>/dev/null | grep "SHA256:" | head -1 | awk '{print $2}')
-
           echo "🔑 RELEASE SHA-1: $RELEASE_SHA1"
-          echo "🔑 RELEASE SHA-256: $RELEASE_SHA256"
+          
+          echo ""
+          echo "=========================================="
+          echo "📋 COPY THESE SHA-1 VALUES TO FIREBASE:"
+          echo "=========================================="
+          echo ""
+          echo "Go to: Firebase Console > Project Settings > Your Apps > Add Fingerprint"
+          echo ""
+          echo "DEBUG SHA-1:    $DEBUG_SHA1"
+          echo "RELEASE SHA-1:  $RELEASE_SHA1"
+          echo ""
+          echo "=========================================="
+          
+          # Save to file
+          echo "DEBUG SHA-1: $DEBUG_SHA1" > $CM_BUILD_DIR/sha1_keys.txt
+          echo "RELEASE SHA-1: $RELEASE_SHA1" >> $CM_BUILD_DIR/sha1_keys.txt
+          echo "Timestamp: $(date)" >> $CM_BUILD_DIR/sha1_keys.txt
+          echo "Build Type: Release" >> $CM_BUILD_DIR/sha1_keys.txt
 
-          echo "RELEASE SHA-1: $RELEASE_SHA1" > $CM_BUILD_DIR/release_sha_keys.txt
-          echo "RELEASE SHA-256: $RELEASE_SHA256" >> $CM_BUILD_DIR/release_sha_keys.txt
-          echo "Timestamp: $(date)" >> $CM_BUILD_DIR/release_sha_keys.txt
-
-      # Clean Project
       - name: Clean Project
         script: |
           echo "🧹 Cleaning project..."
           ./gradlew clean
 
-      # Build Release APK
       - name: Build Release APK
         script: |
           echo "=========================================="
           echo "📦 BUILDING RELEASE APK"
           echo "=========================================="
+          
+          if [ -f "$CM_BUILD_DIR/release.keystore" ]; then
+            echo "Building signed release APK..."
+            ./gradlew assembleRelease \
+              -Pandroid.injected.signing.store.file=$CM_BUILD_DIR/release.keystore \
+              -Pandroid.injected.signing.store.password=ludoblitz123 \
+              -Pandroid.injected.signing.key.alias=ludoblitz \
+              -Pandroid.injected.signing.key.password=ludoblitz123 \
+              --stacktrace
+          else
+            echo "Building unsigned release APK..."
+            ./gradlew assembleRelease --stacktrace
+          fi
 
-          ./gradlew assembleRelease \
-            -Pandroid.injected.signing.store.file=$CM_BUILD_DIR/release.keystore \
-            -Pandroid.injected.signing.store.password=ludoblitz123 \
-            -Pandroid.injected.signing.key.alias=ludoblitz \
-            -Pandroid.injected.signing.key.password=ludoblitz123 \
-            --stacktrace
-
-      # Run Lint (optional)
-      - name: Run Lint Check
-        script: |
-          echo "🔍 Running lint check..."
-          ./gradlew lint || true
-
-      # Print Build Info
-      - name: Print Release Build Information
+      - name: Print Build Information
         script: |
           echo ""
           echo "=========================================="
-          echo "✅ RELEASE BUILD COMPLETED SUCCESSFULLY!"
+          echo "✅ RELEASE BUILD COMPLETED!"
           echo "=========================================="
           echo ""
           echo "📁 APK Location:"
-          find $CM_BUILD_DIR -name "*release*.apk" -type f
+          find $CM_BUILD_DIR -name "*.apk" -type f
           echo ""
           echo "📊 APK Size:"
-          find $CM_BUILD_DIR -name "*release*.apk" -type f -exec ls -lh {} \;
+          find $CM_BUILD_DIR -name "*.apk" -type f -exec ls -lh {} \;
           echo ""
-          echo "🔑 Release SHA Keys:"
-          cat $CM_BUILD_DIR/release_sha_keys.txt || echo "Release SHA key file not found"
+          echo "🔑 SHA-1 Keys:"
+          cat $CM_BUILD_DIR/sha1_keys.txt
           echo ""
           echo "=========================================="
 
     artifacts:
-      - app/build/outputs/apk/release/*.apk
-      - app/build/outputs/mapping/release/mapping.txt
-      - release_sha_keys.txt
+      - app/build/outputs/apk/release/**/*.apk
+      - app/build/outputs/mapping/**/mapping.txt
+      - sha1_keys.txt
 
     publishing:
       email:
@@ -238,7 +277,21 @@ workflows:
           success: true
           failure: true
 
-      # google_play:
-      #   credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-      #   track: internal
-      #   submit_as_draft: true
+# ============================================
+# SETUP INSTRUCTIONS
+# ============================================
+# 1. Go to Codemagic.io and connect your repository
+# 2. Select the workflow you want to run:
+#    - ludo-blitz-debug: For testing/development
+#    - ludo-blitz-release: For production builds
+# 3. Run the build
+# 4. Check the logs for the SHA-1 key(s)
+# 5. Add the SHA-1 to Firebase Console:
+#    Firebase Console > Project Settings > Your Apps > Add Fingerprint
+# 6. Re-run the build after adding SHA-1 to Firebase
+#
+# TROUBLESHOOTING:
+# - If build fails, check the error logs
+# - Ensure google-services.json is in app/ folder
+# - Check that all Firebase services are enabled in Firebase Console
+# - Verify package name matches: com.ludoblitz.app

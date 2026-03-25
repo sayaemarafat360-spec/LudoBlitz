@@ -5,6 +5,7 @@ plugins {
     id("kotlin-parcelize")
     // Firebase - ENABLED
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
