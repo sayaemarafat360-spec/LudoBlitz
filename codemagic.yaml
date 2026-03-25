@@ -20,6 +20,10 @@ workflows:
       groups:
         - firebase_credentials
     scripts:
+      - name: Setup Permissions
+        script: |
+          chmod +x gradlew
+
       - name: Print Environment Info
         script: |
           echo "=========================================="
@@ -36,9 +40,9 @@ workflows:
           echo "=========================================="
           echo "🔑 GENERATING SHA-1 KEY FOR FIREBASE"
           echo "=========================================="
-          
+
           mkdir -p ~/.android
-          
+
           if [ ! -f ~/.android/debug.keystore ]; then
             echo "Creating new debug keystore..."
             keytool -genkeypair \
@@ -51,7 +55,7 @@ workflows:
               -storepass android \
               -keypass android
           fi
-          
+
           echo ""
           echo "=========================================="
           echo "🔐 SHA-1 FINGERPRINT FOR FIREBASE:"
@@ -61,22 +65,22 @@ workflows:
           echo "   Firebase Console > Project Settings > Your Apps > Add Fingerprint"
           echo ""
           echo "------------------------------------------"
-          
+
           SHA1=$(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android -keypass android 2>/dev/null | grep "SHA1:" | head -1 | awk '{print $2}')
-          
+
           echo "🔑 SHA-1: $SHA1"
           echo "------------------------------------------"
           echo ""
-          
+
           SHA256=$(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android -keypass android 2>/dev/null | grep "SHA256:" | head -1 | awk '{print $2}')
           echo "🔑 SHA-256: $SHA256"
           echo ""
-          
+
           echo "SHA-1: $SHA1" > $CM_BUILD_DIR/sha1_debug_key.txt
           echo "SHA-256: $SHA256" >> $CM_BUILD_DIR/sha1_debug_key.txt
           echo "Timestamp: $(date)" >> $CM_BUILD_DIR/sha1_debug_key.txt
           echo "Build Type: Debug" >> $CM_BUILD_DIR/sha1_debug_key.txt
-          
+
           echo "=========================================="
 
       - name: Clean Project
@@ -133,6 +137,10 @@ workflows:
       groups:
         - firebase_credentials
     scripts:
+      - name: Setup Permissions
+        script: |
+          chmod +x gradlew
+
       - name: Print Environment Info
         script: |
           echo "=========================================="
@@ -149,9 +157,9 @@ workflows:
           echo "=========================================="
           echo "🔑 GENERATING SHA-1 KEYS FOR FIREBASE"
           echo "=========================================="
-          
+
           mkdir -p ~/.android
-          
+
           # Debug Keystore
           if [ ! -f ~/.android/debug.keystore ]; then
             echo "Creating debug keystore..."
@@ -165,21 +173,21 @@ workflows:
               -storepass android \
               -keypass android
           fi
-          
+
           echo ""
           echo "=========================================="
           echo "🔐 DEBUG SHA-1 FINGERPRINT:"
           echo "=========================================="
-          
+
           DEBUG_SHA1=$(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android -keypass android 2>/dev/null | grep "SHA1:" | head -1 | awk '{print $2}')
           echo "🔑 DEBUG SHA-1: $DEBUG_SHA1"
-          
+
           # Release Keystore
           echo ""
           echo "=========================================="
           echo "🔐 GENERATING RELEASE KEYSTORE"
           echo "=========================================="
-          
+
           if [ -n "$CM_KEYSTORE" ]; then
             echo "Using provided release keystore..."
             echo $CM_KEYSTORE | base64 --decode > $CM_BUILD_DIR/release.keystore
@@ -195,15 +203,15 @@ workflows:
               -storepass ludoblitz123 \
               -keypass ludoblitz123
           fi
-          
+
           echo ""
           echo "=========================================="
           echo "🔐 RELEASE SHA-1 FINGERPRINT:"
           echo "=========================================="
-          
+
           RELEASE_SHA1=$(keytool -list -v -alias ludoblitz -keystore $CM_BUILD_DIR/release.keystore -storepass ludoblitz123 -keypass ludoblitz123 2>/dev/null | grep "SHA1:" | head -1 | awk '{print $2}')
           echo "🔑 RELEASE SHA-1: $RELEASE_SHA1"
-          
+
           echo ""
           echo "=========================================="
           echo "📋 COPY THESE SHA-1 VALUES TO FIREBASE:"
@@ -215,7 +223,7 @@ workflows:
           echo "RELEASE SHA-1:  $RELEASE_SHA1"
           echo ""
           echo "=========================================="
-          
+
           # Save to file
           echo "DEBUG SHA-1: $DEBUG_SHA1" > $CM_BUILD_DIR/sha1_keys.txt
           echo "RELEASE SHA-1: $RELEASE_SHA1" >> $CM_BUILD_DIR/sha1_keys.txt
@@ -227,12 +235,12 @@ workflows:
           echo "🧹 Cleaning project..."
           ./gradlew clean
 
-      - name: Build Release APK
+      - name: Build Release apk
         script: |
           echo "=========================================="
           echo "📦 BUILDING RELEASE APK"
           echo "=========================================="
-          
+
           if [ -f "$CM_BUILD_DIR/release.keystore" ]; then
             echo "Building signed release APK..."
             ./gradlew assembleRelease \
