@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="coin_gold_light">#FFF8E1</color>
+    <color name="gem_purple">#9333EA</color>
+    <color name="white">#FFFFFF</color>
+</resources>

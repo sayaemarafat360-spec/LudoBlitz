@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <!-- Home Fragment -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.ludoblitz.app.ui.screens.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_online_lobby"
+            app:destination="@id/onlineLobbyFragment" />
+        <action
+            android:id="@+id/action_home_to_profile"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_home_to_leaderboard"
+            app:destination="@id/leaderboardFragment" />
+    </fragment>
+
+    <!-- Play Fragment -->
+    <fragment
+        android:id="@+id/playFragment"
+        android:name="com.ludoblitz.app.ui.screens.PlayFragment"
+        android:label="Play"
+        tools:layout="@layout/fragment_play">
+        <action
+            android:id="@+id/action_play_to_online_lobby"
+            app:destination="@id/onlineLobbyFragment" />
+        <action
+            android:id="@+id/action_play_to_matchmaking"
+            app:destination="@id/matchmakingFragment" />
+        <action
+            android:id="@+id/action_play_to_lobby"
+            app:destination="@id/gameLobbyFragment" />
+    </fragment>
+
+    <!-- Shop Fragment -->
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.ludoblitz.app.ui.screens.ShopFragment"
+        android:label="Shop"
+        tools:layout="@layout/fragment_shop" />
+
+    <!-- Profile Fragment -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.ludoblitz.app.ui.screens.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <!-- Login Fragment -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.ludoblitz.app.ui.screens.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_login_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- Online Lobby Fragment -->
+    <fragment
+        android:id="@+id/onlineLobbyFragment"
+        android:name="com.ludoblitz.app.ui.screens.OnlineLobbyFragment"
+        android:label="Online Lobby"
+        tools:layout="@layout/fragment_online_lobby" />
+
+    <!-- Game Lobby Fragment -->
+    <fragment
+        android:id="@+id/gameLobbyFragment"
+        android:name="com.ludoblitz.app.ui.screens.GameLobbyFragment"
+        android:label="Game Lobby"
+        tools:layout="@layout/fragment_game_lobby" />
+
+    <!-- Matchmaking Fragment -->
+    <fragment
+        android:id="@+id/matchmakingFragment"
+        android:name="com.ludoblitz.app.ui.screens.MatchmakingFragment"
+        android:label="Finding Match"
+        tools:layout="@layout/fragment_matchmaking" />
+
+    <!-- Leaderboard Fragment -->
+    <fragment
+        android:id="@+id/leaderboardFragment"
+        android:name="com.ludoblitz.app.ui.screens.LeaderboardFragment"
+        android:label="Leaderboard"
+        tools:layout="@layout/fragment_leaderboard" />
+
+    <!-- Game Fragment -->
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.ludoblitz.app.ui.screens.GameFragment"
+        android:label="Game"
+        tools:layout="@layout/fragment_game" />
+
+</navigation>

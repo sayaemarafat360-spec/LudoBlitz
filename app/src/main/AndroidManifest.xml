@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    
+    <uses-feature android:name="android.hardware.screen.portrait" android:required="true" />
+
+    <application
+        android:name=".LudoBlitzApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LudoBlitz"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="34">
+
+        <!-- Splash Activity -->
+        <activity
+            android:name=".ui.screens.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.LudoBlitz.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Main Activity -->
+        <activity
+            android:name=".ui.screens.MainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Game Activity -->
+        <activity
+            android:name=".ui.screens.GameActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:keepScreenOn="true" />
+
+        <!-- Online Lobby Activity -->
+        <activity
+            android:name=".ui.screens.OnlineLobbyActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Profile Activity -->
+        <activity
+            android:name=".ui.screens.ProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Settings Activity -->
+        <activity
+            android:name=".ui.screens.SettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Shop Activity -->
+        <activity
+            android:name=".ui.screens.ShopActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Leaderboard Activity -->
+        <activity
+            android:name=".ui.screens.LeaderboardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Friends Activity -->
+        <activity
+            android:name=".ui.screens.FriendsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Tutorial Activity -->
+        <activity
+            android:name=".ui.screens.TutorialActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Google Sign-In -->
+        <activity
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- AdMob Meta Data -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+        
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true" />
+
+        <!-- Firebase Crashlytics -->
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="true" />
+
+        <!-- File Provider for sharing -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        
+        <!-- Notification Receiver -->
+        <receiver
+            android:name=".receivers.NotificationReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.ludoblitz.app.DAILY_REWARD" />
+                <action android:name="com.ludoblitz.app.SPIN_REMINDER" />
+                <action android:name="com.ludoblitz.app.TURN_REMINDER" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- Boot Receiver for rescheduling notifications -->
+        <receiver
+            android:name=".receivers.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- Firebase Cloud Messaging Service -->
+        <service
+            android:name=".services.LudoMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>
