@@ -1,8 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("kotlin-parcelize")
+    id("com.google.dagger.hilt.android")
     // Firebase - ENABLED
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -82,14 +83,14 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     
-    // Dependency Injection - Hilt
+    // Dependency Injection - Hilt (using KSP)
     implementation("com.google.dagger:hilt-android:2.50")
-    kapt("com.google.dagger:hilt-compiler:2.50")
+    ksp("com.google.dagger:hilt-compiler:2.50")
     
-    // Room Database (for local game saves)
+    // Room Database (for local game saves) - using KSP
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
     
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -97,9 +98,9 @@ dependencies {
     // Lottie Animations
     implementation("com.airbnb.android:lottie:6.3.0")
     
-    // Glide for Images
+    // Glide for Images - using KSP
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    kapt("com.github.bumptech.glide:compiler:4.16.0")
+    ksp("com.github.bumptech.glide:compiler:4.16.0")
     
     // Circle ImageView
     implementation("de.hdodenhof:circleimageview:3.1.0")
@@ -158,8 +159,4 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-}
-
-kapt {
-    correctErrorTypes = true
 }
