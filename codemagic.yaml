@@ -10,6 +10,11 @@ workflows:
       groups:
         - firebase_credentials
     scripts:
+      # Fix Gradle wrapper permission
+      - name: Make Gradle Executable
+        script: |
+          chmod +x gradlew
+
       # Print environment info
       - name: Print Environment Info
         script: |
@@ -125,6 +130,11 @@ workflows:
       groups:
         - firebase_credentials
     scripts:
+      # Fix Gradle wrapper permission
+      - name: Make Gradle Executable
+        script: |
+          chmod +x gradlew
+
       # Print environment info
       - name: Print Environment Info
         script: |
