@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-    
+
     <uses-feature android:name="android.hardware.screen.portrait" android:required="true" />
 
     <application
@@ -52,18 +52,6 @@
             android:screenOrientation="portrait"
             android:keepScreenOn="true" />
 
-        <!-- Online Lobby Activity -->
-        <activity
-            android:name=".ui.screens.OnlineLobbyActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- Profile Activity -->
-        <activity
-            android:name=".ui.screens.ProfileActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
         <!-- Settings Activity -->
         <activity
             android:name=".ui.screens.SettingsActivity"
@@ -73,18 +61,6 @@
         <!-- Shop Activity -->
         <activity
             android:name=".ui.screens.ShopActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- Leaderboard Activity -->
-        <activity
-            android:name=".ui.screens.LeaderboardActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- Friends Activity -->
-        <activity
-            android:name=".ui.screens.FriendsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
@@ -104,7 +80,7 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
-        
+
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
             android:value="true" />
@@ -124,7 +100,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        
+
         <!-- Notification Receiver -->
         <receiver
             android:name=".receivers.NotificationReceiver"
@@ -136,7 +112,7 @@
                 <action android:name="com.ludoblitz.app.TURN_REMINDER" />
             </intent-filter>
         </receiver>
-        
+
         <!-- Boot Receiver for rescheduling notifications -->
         <receiver
             android:name=".receivers.BootReceiver"
@@ -147,7 +123,7 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
-        
+
         <!-- Firebase Cloud Messaging Service -->
         <service
             android:name=".services.LudoMessagingService"
