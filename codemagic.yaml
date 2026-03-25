@@ -1,39 +1,36 @@
 # Codemagic CI/CD Configuration for Ludo Blitz
-# This configuration builds the app and outputs SHA-1 key for Firebase
+# Separate workflows for Debug and Release builds
 
 workflows:
-  ludo-blitz-workflow:
-    name: Ludo Blitz Build
+  ludo-blitz-debug:
+    name: Ludo Blitz Debug Build
     max_build_duration: 30
     environment:
-      android: stable
       java: 17
       groups:
-        - firebase_credentials  # Add your Firebase credentials here if needed
+        - firebase_credentials
     scripts:
       # Print environment info
       - name: Print Environment Info
         script: |
           echo "=========================================="
-          echo "🎮 LUDO BLITZ - CI/CD Build Started"
+          echo "🎮 LUDO BLITZ - DEBUG BUILD STARTED"
           echo "=========================================="
           echo "Java Version:"
           java -version
           echo "------------------------------------------"
           echo "Gradle Version:"
           ./gradlew --version
-      
+
       # Generate Debug Keystore and SHA-1 Key
       - name: Generate Debug Keystore & SHA-1 Key
         script: |
           echo "=========================================="
-          echo "🔑 GENERATING SHA-1 KEY FOR FIREBASE"
+          echo "🔑 GENERATING DEBUG SHA-1 KEY FOR FIREBASE"
           echo "=========================================="
-          
-          # Create .android directory if not exists
+
           mkdir -p ~/.android
-          
-          # Generate debug keystore if it doesn't exist
+
           if [ ! -f ~/.android/debug.keystore ]; then
             echo "Creating new debug keystore..."
             keytool -genkeypair \
@@ -46,46 +43,112 @@ workflows:
               -storepass android \
               -keypass android
           fi
-          
+
           echo ""
           echo "=========================================="
-          echo "🔐 SHA-1 FINGERPRINT FOR FIREBASE:"
+          echo "🔐 DEBUG SHA-1 FINGERPRINT FOR FIREBASE:"
           echo "=========================================="
           echo ""
           echo "COPY THE SHA-1 VALUE BELOW AND ADD IT TO:"
           echo "Firebase Console > Project Settings > Your Apps > Add Fingerprint"
           echo ""
           echo "------------------------------------------"
-          
-          # Extract and print SHA-1 in a clear format
+
           SHA1=$(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android -keypass android 2>/dev/null | grep "SHA1:" | head -1 | awk '{print $2}')
-          
+          SHA256=$(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android -keypass android 2>/dev/null | grep "SHA256:" | head -1 | awk '{print $2}')
+
           echo "🔑 SHA-1: $SHA1"
+          echo "🔑 SHA-256: $SHA256"
           echo "------------------------------------------"
           echo ""
+
+          echo "DEBUG SHA-1: $SHA1" > $CM_BUILD_DIR/debug_sha_keys.txt
+          echo "DEBUG SHA-256: $SHA256" >> $CM_BUILD_DIR/debug_sha_keys.txt
+          echo "Timestamp: $(date)" >> $CM_BUILD_DIR/debug_sha_keys.txt
+
+      # Clean Project
+      - name: Clean Project
+        script: |
+          echo "🧹 Cleaning project..."
+          ./gradlew clean
+
+      # Build Debug APK
+      - name: Build Debug APK
+        script: |
+          echo "=========================================="
+          echo "🔨 BUILDING DEBUG APK"
+          echo "=========================================="
+          ./gradlew assembleDebug --stacktrace
+
+      # Run Lint (optional)
+      - name: Run Lint Check
+        script: |
+          echo "🔍 Running lint check..."
+          ./gradlew lint || true
+
+      # Print Build Info
+      - name: Print Debug Build Information
+        script: |
+          echo ""
+          echo "=========================================="
+          echo "✅ DEBUG BUILD COMPLETED SUCCESSFULLY!"
           echo "=========================================="
           echo ""
-          
-          # Save SHA-1 to a file for reference
-          echo "SHA-1: $SHA1" > $CM_BUILD_DIR/sha1_key.txt
-          echo "Timestamp: $(date)" >> $CM_BUILD_DIR/sha1_key.txt
-          
-          # Also print SHA-256 (needed for some Google services)
-          SHA256=$(keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore -storepass android -keypass android 2>/dev/null | grep "SHA256:" | head -1 | awk '{print $2}')
-          echo "🔑 SHA-256: $SHA256"
+          echo "📁 APK Location:"
+          find $CM_BUILD_DIR -name "*debug*.apk" -type f
           echo ""
-          
-          # Generate Release Keystore for production builds
+          echo "📊 APK Size:"
+          find $CM_BUILD_DIR -name "*debug*.apk" -type f -exec ls -lh {} \;
+          echo ""
+          echo "🔑 Debug SHA Keys:"
+          cat $CM_BUILD_DIR/debug_sha_keys.txt || echo "Debug SHA key file not found"
+          echo ""
           echo "=========================================="
-          echo "🔐 GENERATING RELEASE KEYSTORE"
+
+    artifacts:
+      - app/build/outputs/apk/debug/*.apk
+      - debug_sha_keys.txt
+
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com
+        notify:
+          success: true
+          failure: true
+
+  ludo-blitz-release:
+    name: Ludo Blitz Release Build
+    max_build_duration: 30
+    environment:
+      java: 17
+      groups:
+        - firebase_credentials
+    scripts:
+      # Print environment info
+      - name: Print Environment Info
+        script: |
           echo "=========================================="
-          
-          # Check if release keystore credentials are provided
+          echo "🎮 LUDO BLITZ - RELEASE BUILD STARTED"
+          echo "=========================================="
+          echo "Java Version:"
+          java -version
+          echo "------------------------------------------"
+          echo "Gradle Version:"
+          ./gradlew --version
+
+      # Prepare Release Keystore
+      - name: Prepare Release Keystore
+        script: |
+          echo "=========================================="
+          echo "🔐 PREPARING RELEASE KEYSTORE"
+          echo "=========================================="
+
           if [ -n "$CM_KEYSTORE" ]; then
             echo "Using provided release keystore..."
             echo $CM_KEYSTORE | base64 --decode > $CM_BUILD_DIR/release.keystore
           else
-            echo "No release keystore provided. Creating a temporary one for testing..."
+            echo "No release keystore provided. Creating temporary release keystore..."
             keytool -genkeypair \
               -alias ludoblitz \
               -keyalg RSA \
@@ -95,103 +158,77 @@ workflows:
               -keystore $CM_BUILD_DIR/release.keystore \
               -storepass ludoblitz123 \
               -keypass ludoblitz123
-            
-            echo ""
-            echo "------------------------------------------"
-            echo "RELEASE SHA-1:"
-            keytool -list -v -alias ludoblitz -keystore $CM_BUILD_DIR/release.keystore -storepass ludoblitz123 -keypass ludoblitz123 2>/dev/null | grep "SHA1:" | head -1
-            echo "------------------------------------------"
           fi
-      
-      # Clean and Build
+
+          RELEASE_SHA1=$(keytool -list -v -alias ludoblitz -keystore $CM_BUILD_DIR/release.keystore -storepass ludoblitz123 -keypass ludoblitz123 2>/dev/null | grep "SHA1:" | head -1 | awk '{print $2}')
+          RELEASE_SHA256=$(keytool -list -v -alias ludoblitz -keystore $CM_BUILD_DIR/release.keystore -storepass ludoblitz123 -keypass ludoblitz123 2>/dev/null | grep "SHA256:" | head -1 | awk '{print $2}')
+
+          echo "🔑 RELEASE SHA-1: $RELEASE_SHA1"
+          echo "🔑 RELEASE SHA-256: $RELEASE_SHA256"
+
+          echo "RELEASE SHA-1: $RELEASE_SHA1" > $CM_BUILD_DIR/release_sha_keys.txt
+          echo "RELEASE SHA-256: $RELEASE_SHA256" >> $CM_BUILD_DIR/release_sha_keys.txt
+          echo "Timestamp: $(date)" >> $CM_BUILD_DIR/release_sha_keys.txt
+
+      # Clean Project
       - name: Clean Project
         script: |
           echo "🧹 Cleaning project..."
           ./gradlew clean
-      
-      # Build Debug APK
-      - name: Build Debug APK
-        script: |
-          echo "=========================================="
-          echo "🔨 BUILDING DEBUG APK"
-          echo "=========================================="
-          ./gradlew assembleDebug --stacktrace
-      
-      # Build Release APK (if keystore available)
+
+      # Build Release APK
       - name: Build Release APK
         script: |
           echo "=========================================="
           echo "📦 BUILDING RELEASE APK"
           echo "=========================================="
-          
-          if [ -f "$CM_BUILD_DIR/release.keystore" ]; then
-            echo "Building signed release APK..."
-            ./gradlew assembleRelease \
-              -Pandroid.injected.signing.store.file=$CM_BUILD_DIR/release.keystore \
-              -Pandroid.injected.signing.store.password=ludoblitz123 \
-              -Pandroid.injected.signing.key.alias=ludoblitz \
-              -Pandroid.injected.signing.key.password=ludoblitz123 \
-              --stacktrace
-          else
-            echo "Building unsigned release APK..."
-            ./gradlew assembleRelease --stacktrace
-          fi
-      
+
+          ./gradlew assembleRelease \
+            -Pandroid.injected.signing.store.file=$CM_BUILD_DIR/release.keystore \
+            -Pandroid.injected.signing.store.password=ludoblitz123 \
+            -Pandroid.injected.signing.key.alias=ludoblitz \
+            -Pandroid.injected.signing.key.password=ludoblitz123 \
+            --stacktrace
+
       # Run Lint (optional)
       - name: Run Lint Check
         script: |
           echo "🔍 Running lint check..."
-          ./gradlew lint || true  # Don't fail on lint issues for now
-      
+          ./gradlew lint || true
+
       # Print Build Info
-      - name: Print Build Information
+      - name: Print Release Build Information
         script: |
           echo ""
           echo "=========================================="
-          echo "✅ BUILD COMPLETED SUCCESSFULLY!"
+          echo "✅ RELEASE BUILD COMPLETED SUCCESSFULLY!"
           echo "=========================================="
           echo ""
           echo "📁 APK Location:"
-          find $CM_BUILD_DIR -name "*.apk" -type f
+          find $CM_BUILD_DIR -name "*release*.apk" -type f
           echo ""
           echo "📊 APK Size:"
-          find $CM_BUILD_DIR -name "*.apk" -type f -exec ls -lh {} \;
+          find $CM_BUILD_DIR -name "*release*.apk" -type f -exec ls -lh {} \;
           echo ""
-          echo "🔑 SHA-1 Key File:"
-          cat $CM_BUILD_DIR/sha1_key.txt || echo "SHA-1 key file not found"
+          echo "🔑 Release SHA Keys:"
+          cat $CM_BUILD_DIR/release_sha_keys.txt || echo "Release SHA key file not found"
           echo ""
           echo "=========================================="
-    
+
     artifacts:
-      - app/build/outputs/apk/**/*.apk
-      - app/build/outputs/mapping/**/mapping.txt
-      - sha1_key.txt
-    
+      - app/build/outputs/apk/release/*.apk
+      - app/build/outputs/mapping/release/mapping.txt
+      - release_sha_keys.txt
+
     publishing:
-      # Email notification
       email:
         recipients:
-          - your-email@example.com  # Replace with your email
+          - your-email@example.com
         notify:
           success: true
           failure: true
-      
-      # Google Play (when ready for release)
+
       # google_play:
       #   credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
       #   track: internal
       #   submit_as_draft: true
-
-# Instructions for first-time setup:
-# 1. Go to Codemagic.io and connect your repository
-# 2. Copy this file to your repository root
-# 3. Run the build
-# 4. Check the logs for the SHA-1 key
-# 5. Add the SHA-1 to Firebase Console > Project Settings > Your Apps
-# 6. Re-run the build after adding SHA-1 to Firebase
-
-# Troubleshooting:
-# - If build fails, check the error logs
-# - Ensure all dependencies are correctly specified
-# - Verify google-services.json is in app/src/main/
-# - Check that all Firebase services are enabled in Firebase Console
