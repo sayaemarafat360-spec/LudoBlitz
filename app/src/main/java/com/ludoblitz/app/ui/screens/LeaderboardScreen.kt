@@ -241,10 +241,6 @@ private fun TopPlayerCard(
             containerColor = color.copy(alpha = 0.2f)
         )
     ) {
-        colors = CardDefaults.cardColors(
-            containerColor = color.copy(alpha = 0.2f)
-        )
-    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
