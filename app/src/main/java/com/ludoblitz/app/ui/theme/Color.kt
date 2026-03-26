@@ -86,9 +86,3 @@ val TrophyColor = Color(0xFFFFD700)
 val EasyColor = Color(0xFF2ED573)
 val MediumColor = Color(0xFFFFB800)
 val HardColor = Color(0xFFFF4757)
-
-// Accent Colors for UI
-val AccentPurple = Color(0xFF9D4EDD)
-val AccentPink = Color(0xFFE040FB)
-val AccentBlue = Color(0xFF00D9FF)
-val AccentGreen = Color(0xFF00E676)
