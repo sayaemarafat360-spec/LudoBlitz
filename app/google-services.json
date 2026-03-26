@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "",
-    "project_id": "",
-    "storage_bucket": ""
+    "project_number": "414969645120",
+    "project_id": "ludo-blitz-91add",
+    "storage_bucket": "ludo-blitz-91add.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "",
+        "mobilesdk_app_id": "1:414969645120:android:a458ece7dc4e13f9f6b7a5",
         "android_client_info": {
           "package_name": "com.ludoblitz.app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": ""
+          "current_key": "AIzaSyDfar_XZISVgD5nqAkn_wtB6J7X0pkuFkA"
         }
       ],
       "services": {
