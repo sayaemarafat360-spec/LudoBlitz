@@ -1,27 +1,29 @@
 {
   "project_info": {
-    "project_number": "942368836760",
-    "project_id": "ludo-blitz-dde0b",
-    "storage_bucket": "ludo-blitz-dde0b.appspot.com"
+    "project_number": "",
+    "project_id": "",
+    "storage_bucket": ""
   },
-  "client": [{
-    "client_info": {
-      "mobilesdk_app_id": "1:942368836760:android:abc123",
-      "android_client_info": { "package_name": "com.ludoblitz.app" }
-    },
-    "oauth_client": [{
-      "client_id": "942368836760-10rhtnrrdbn2egg4mma6a7mpbs51sob8.apps.googleusercontent.com",
-      "client_type": 3
-    }],
-    "api_key": [{ "current_key": "AIzaSyTest123" }],
-    "services": {
-      "appinvite_service": {
-        "other_platform_oauth_client": [{
-          "client_id": "942368836760-10rhtnrrdbn2egg4mma6a7mpbs51sob8.apps.googleusercontent.com",
-          "client_type": 3
-        }]
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "",
+        "android_client_info": {
+          "package_name": "com.ludoblitz.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": ""
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
       }
     }
-  }],
+  ],
   "configuration_version": "1"
 }

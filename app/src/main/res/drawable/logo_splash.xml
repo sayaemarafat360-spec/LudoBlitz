@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <!-- Dice shape -->
+    <path
+        android:fillColor="#FFD700"
+        android:pathData="M40,40 L160,40 L160,160 L40,160 Z" />
+    <path
+        android:fillColor="#B8860B"
+        android:pathData="M40,160 L160,160 L160,170 L40,170 Z" />
+    <!-- Dice dots -->
+    <group android:translateX="100" android:translateY="100">
+        <!-- Dot 1 - top left -->
+        <path
+            android:fillColor="#1A1A2E"
+            android:pathData="M-30,-30 m-8,0 a8,8 0,1 1,16 0 a8,8 0,1 1,-16 0" />
+        <!-- Dot 2 - top right -->
+        <path
+            android:fillColor="#1A1A2E"
+            android:pathData="M30,-30 m-8,0 a8,8 0,1 1,16 0 a8,8 0,1 1,-16 0" />
+        <!-- Dot 3 - center -->
+        <path
+            android:fillColor="#1A1A2E"
+            android:pathData="M0,0 m-8,0 a8,8 0,1 1,16 0 a8,8 0,1 1,-16 0" />
+        <!-- Dot 4 - bottom left -->
+        <path
+            android:fillColor="#1A1A2E"
+            android:pathData="M-30,30 m-8,0 a8,8 0,1 1,16 0 a8,8 0,1 1,-16 0" />
+        <!-- Dot 5 - bottom right -->
+        <path
+            android:fillColor="#1A1A2E"
+            android:pathData="M30,30 m-8,0 a8,8 0,1 1,16 0 a8,8 0,1 1,-16 0" />
+    </group>
+</vector>

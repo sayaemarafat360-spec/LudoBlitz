@@ -1,12 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#FF6B6B</color>
-    <color name="primaryDark">#C92A2A</color>
-    <color name="accent">#FFE66D</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="black">#FF000000</color>
-    <color name="token_red">#E63946</color>
-    <color name="token_green">#2A9D8F</color>
-    <color name="token_yellow">#F4A261</color>
-    <color name="token_blue">#457B9D</color>
+    <!-- Primary Colors - Royal Gold Theme -->
+    <color name="primary_gold">#FFD700</color>
+    <color name="primary_gold_dark">#B8860B</color>
+    <color name="primary_gold_light">#FFE55C</color>
+
+    <!-- Background Colors -->
+    <color name="background_dark">#1A1A2E</color>
+    <color name="background_darker">#0F0F1A</color>
+    <color name="background_gradient_start">#1A1A2E</color>
+    <color name="background_gradient_end">#16213E</color>
+
+    <!-- Accent Colors -->
+    <color name="accent_purple">#9D4EDD</color>
+    <color name="accent_pink">#E040FB</color>
+    <color name="accent_blue">#00D9FF</color>
+    <color name="accent_green">#00E676</color>
+
+    <!-- Player Token Colors -->
+    <color name="token_red">#FF4757</color>
+    <color name="token_green">#2ED573</color>
+    <color name="token_yellow">#FFD700</color>
+    <color name="token_blue">#3498DB</color>
+
+    <!-- Token Light Variants -->
+    <color name="token_red_light">#FF6B7A</color>
+    <color name="token_green_light">#7BED9F</color>
+    <color name="token_yellow_light">#FFE55C</color>
+    <color name="token_blue_light">#5DADE2</color>
+
+    <!-- Board Colors -->
+    <color name="board_background">#F5F5DC</color>
+    <color name="board_path">#FFFFFF</color>
+    <color name="board_safe_zone">#E8E8E8</color>
+
+    <!-- Home Base Colors -->
+    <color name="home_red">#FFE4E4</color>
+    <color name="home_green">#E4FFE4</color>
+    <color name="home_yellow">#FFFDE4</color>
+    <color name="home_blue">#E4F0FF</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B0B0B0</color>
+    <color name="text_gold">#FFD700</color>
+
+    <!-- Button Colors -->
+    <color name="button_primary">#FFD700</color>
+    <color name="button_secondary">#9D4EDD</color>
+    <color name="button_disabled">#666666</color>
+
+    <!-- Card Colors -->
+    <color name="card_background">#252545</color>
+    <color name="card_border">#3D3D6B</color>
+
+    <!-- Status Colors -->
+    <color name="success">#00E676</color>
+    <color name="warning">#FFB800</color>
+    <color name="error">#FF4757</color>
+
+    <!-- Gradient Colors -->
+    <color name="gradient_purple_start">#667EEA</color>
+    <color name="gradient_purple_end">#764BA2</color>
+    <color name="gradient_gold_start">#FFD700</color>
+    <color name="gradient_gold_end">#FFA500</color>
+    <color name="gradient_blue_start">#00D9FF</color>
+    <color name="gradient_blue_end">#0099FF</color>
+
+    <!-- Shadow -->
+    <color name="shadow_dark">#80000000</color>
+    <color name="shadow_light">#40000000</color>
+
+    <!-- Overlay -->
+    <color name="overlay_dark">#80000000</color>
+    <color name="overlay_light">#40FFFFFF</color>
 </resources>

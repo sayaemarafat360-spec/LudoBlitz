@@ -1,11 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App Info -->
     <string name="app_name">Ludo Blitz</string>
+    <string name="app_tagline">Roll. Race. Dominate!</string>
+
+    <!-- Main Menu -->
     <string name="play">Play</string>
+    <string name="play_vs_computer">Play vs Computer</string>
+    <string name="local_multiplayer">Local Multiplayer</string>
+    <string name="play_with_friends">Play with Friends</string>
     <string name="settings">Settings</string>
+    <string name="profile">Profile</string>
+    <string name="shop">Shop</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="daily_rewards">Daily Rewards</string>
+
+    <!-- Game Modes -->
+    <string name="select_game_mode">Select Game Mode</string>
+    <string name="classic_mode">Classic Mode</string>
+    <string name="quick_mode">Quick Mode</string>
+    <string name="classic_mode_desc">Traditional Ludo with full rules</string>
+    <string name="quick_mode_desc">Faster gameplay with 2 tokens</string>
+
+    <!-- Difficulty -->
+    <string name="select_difficulty">Select Difficulty</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+
+    <!-- Player Setup -->
+    <string name="player_setup">Player Setup</string>
+    <string name="player">Player</string>
+    <string name="player_1">Player 1</string>
+    <string name="player_2">Player 2</string>
+    <string name="player_3">Player 3</string>
+    <string name="player_4">Player 4</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="select_color">Select Color</string>
+    <string name="select_avatar">Select Avatar</string>
+    <string name="add_player">Add Player</string>
+    <string name="remove_player">Remove Player</string>
+    <string name="start_game">Start Game</string>
+
+    <!-- Game Board -->
     <string name="roll_dice">Roll Dice</string>
-    <string name="sound">Sound</string>
+    <string name="your_turn">Your Turn!</string>
+    <string name="waiting_for">Waiting for %s...</string>
+    <string name="got_six">You got a 6! Roll again!</string>
+    <string name="got_three_sixs">Three 6s! Turn skipped!</string>
+    <string name="token_captured">Token captured! +20 bonus moves</string>
+    <string name="token_home">Token reached home!</string>
+    <string name="select_token">Select a token to move</string>
+    <string name="no_valid_move">No valid moves available</string>
+
+    <!-- Game Rules -->
+    <string name="game_rules">Game Rules</string>
+    <string name="rule_6_double_turn">Double turn on 6</string>
+    <string name="rule_3_sixs_burn">Three 6s burns the turn</string>
+    <string name="rule_safe_zones">Safe zones enabled</string>
+    <string name="rule_token_count">Tokens per player</string>
+
+    <!-- Settings -->
+    <string name="sound_effects">Sound Effects</string>
+    <string name="background_music">Background Music</string>
     <string name="vibration">Vibration</string>
-    <string name="dark_mode">Dark Mode</string>
+    <string name="notifications">Notifications</string>
+    <string name="language">Language</string>
+    <string name="theme">Theme</string>
+    <string name="about">About</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="share">Share</string>
+
+    <!-- Theme Selection -->
+    <string name="select_theme">Select Theme</string>
+    <string name="theme_classic">Classic</string>
+    <string name="theme_royal_gold">Royal Gold</string>
+    <string name="theme_fantasy">Fantasy</string>
+    <string name="theme_neon">Neon</string>
+    <string name="theme_nature">Nature</string>
+
+    <!-- Results -->
+    <string name="congratulations">Congratulations!</string>
+    <string name="you_won">You Won!</string>
+    <string name="game_over">Game Over</string>
+    <string name="winner">Winner</string>
+    <string name="runner_up">Runner Up</string>
+    <string name="rank">Rank</string>
+    <string name="play_again">Play Again</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="share_result">Share Result</string>
+
+    <!-- Statistics -->
+    <string name="statistics">Statistics</string>
+    <string name="games_played">Games Played</string>
+    <string name="games_won">Games Won</string>
+    <string name="win_rate">Win Rate</string>
+    <string name="total_tokens_home">Total Tokens Home</string>
+    <string name="total_captures">Total Captures</string>
+    <string name="best_streak">Best Win Streak</string>
+
+    <!-- Currency -->
+    <string name="coins">Coins</string>
+    <string name="gems">Gems</string>
+    <string name="earn_coins">Earn Coins</string>
+    <string name="spend_coins">Spend Coins</string>
+    <string name="watch_ad_reward">Watch Ad for %d Coins</string>
+
+    <!-- Shop -->
+    <string name="shop_title">Shop</string>
+    <string name="themes">Themes</string>
+    <string name="avatars">Avatars</string>
+    <string name="dice_skins">Dice Skins</string>
+    <string name="token_skins">Token Skins</string>
+    <string name="unlock">Unlock</string>
+    <string name="equipped">Equipped</string>
+    <string name="owned">Owned</string>
+
+    <!-- Daily Rewards -->
+    <string name="day">Day</string>
+    <string name="claim_reward">Claim Reward</string>
+    <string name="come_back_tomorrow">Come back tomorrow!</string>
+    <string name="streak_bonus">Streak Bonus</string>
+
+    <!-- Leaderboard -->
+    <string name="weekly_leaderboard">Weekly Leaderboard</string>
+    <string name="all_time_leaderboard">All Time Leaderboard</string>
+    <string name="your_rank">Your Rank</string>
+
+    <!-- Achievements -->
+    <string name="achievements">Achievements</string>
+    <string name="first_win">First Win</string>
+    <string name="first_win_desc">Win your first game</string>
+    <string name="streak_master">Streak Master</string>
+    <string name="streak_master_desc">Win 5 games in a row</string>
+    <string name="token_hunter">Token Hunter</string>
+    <string name="token_hunter_desc">Capture 100 tokens</string>
+
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="loading">Loading...</string>
+    <string name="error">Error</string>
+    <string name="success">Success</string>
+    <string name="coming_soon">Coming Soon</string>
+    <string name="feature_locked">Feature Locked</string>
+    <string name="unlock_at_level">Unlock at Level %d</string>
+
+    <!-- Ad related -->
+    <string name="loading_ad">Loading Ad...</string>
+    <string name="ad_not_ready">Ad not ready yet. Try again later.</string>
+
+    <!-- Exit confirmation -->
+    <string name="exit_confirmation">Exit Game?</string>
+    <string name="exit_message">Are you sure you want to exit?</string>
     <string name="exit">Exit</string>
 </resources>
