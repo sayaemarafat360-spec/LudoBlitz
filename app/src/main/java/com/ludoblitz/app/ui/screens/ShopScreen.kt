@@ -171,9 +171,11 @@ fun ShopScreen(
                 edgePadding = 24.dp,
                 indicator = { tabPositions ->
                     if (selectedTab < tabPositions.size) {
-                        TabRowDefaults.SecondaryIndicator(
-                            modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
-                            color = PrimaryGold
+                        Box(
+                            modifier = Modifier
+                                .tabIndicatorOffset(tabPositions[selectedTab])
+                                .height(3.dp)
+                                .background(PrimaryGold)
                         )
                     }
                 },

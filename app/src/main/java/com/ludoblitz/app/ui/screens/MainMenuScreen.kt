@@ -144,52 +144,54 @@ fun MainMenuScreen(
 
 @Composable
 private fun BackgroundDecorations() {
-    // Top right glow
-    Box(
-        modifier = Modifier
-            .size(300.dp)
-            .align(Alignment.TopEnd)
-            .offset(x = 100.dp, y = (-100).dp)
-            .background(
-                Brush.radialGradient(
-                    colors = listOf(
-                        PrimaryGold.copy(alpha = 0.08f),
-                        Color.Transparent
+    Box(modifier = Modifier.fillMaxSize()) {
+        // Top right glow
+        Box(
+            modifier = Modifier
+                .size(300.dp)
+                .align(Alignment.TopEnd)
+                .offset(x = 100.dp, y = (-100).dp)
+                .background(
+                    Brush.radialGradient(
+                        colors = listOf(
+                            PrimaryGold.copy(alpha = 0.08f),
+                            Color.Transparent
+                        )
                     )
                 )
-            )
-    )
+        )
 
-    // Bottom left glow
-    Box(
-        modifier = Modifier
-            .size(350.dp)
-            .align(Alignment.BottomStart)
-            .offset(x = (-150).dp, y = 100.dp)
-            .background(
-                Brush.radialGradient(
-                    colors = listOf(
-                        AccentPurple.copy(alpha = 0.06f),
-                        Color.Transparent
+        // Bottom left glow
+        Box(
+            modifier = Modifier
+                .size(350.dp)
+                .align(Alignment.BottomStart)
+                .offset(x = (-150).dp, y = 100.dp)
+                .background(
+                    Brush.radialGradient(
+                        colors = listOf(
+                            AccentPurple.copy(alpha = 0.06f),
+                            Color.Transparent
+                        )
                     )
                 )
-            )
-    )
+        )
 
-    // Center subtle glow
-    Box(
-        modifier = Modifier
-            .size(400.dp)
-            .align(Alignment.Center)
-            .background(
-                Brush.radialGradient(
-                    colors = listOf(
-                        PrimaryGold.copy(alpha = 0.03f),
-                        Color.Transparent
+        // Center subtle glow
+        Box(
+            modifier = Modifier
+                .size(400.dp)
+                .align(Alignment.Center)
+                .background(
+                    Brush.radialGradient(
+                        colors = listOf(
+                            PrimaryGold.copy(alpha = 0.03f),
+                            Color.Transparent
+                        )
                     )
                 )
-            )
-    )
+        )
+    }
 }
 
 @Composable
