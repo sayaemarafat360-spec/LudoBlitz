@@ -4,7 +4,6 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -146,7 +145,8 @@ fun LeaderboardScreen(
                     name = leaderboardData[1].name,
                     points = leaderboardData[1].points,
                     color = Color(0xFFC0C0C0),
-                    height = 140.dp
+                    height = 140.dp,
+                    modifier = Modifier.weight(1f)
                 )
 
                 // 1st Place
@@ -155,7 +155,8 @@ fun LeaderboardScreen(
                     name = leaderboardData[0].name,
                     points = leaderboardData[0].points,
                     color = PrimaryGold,
-                    height = 170.dp
+                    height = 170.dp,
+                    modifier = Modifier.weight(1f)
                 )
 
                 // 3rd Place
@@ -164,7 +165,8 @@ fun LeaderboardScreen(
                     name = leaderboardData[2].name,
                     points = leaderboardData[2].points,
                     color = Color(0xFFCD7F32),
-                    height = 120.dp
+                    height = 120.dp,
+                    modifier = Modifier.weight(1f)
                 )
             }
 
@@ -231,12 +233,11 @@ private fun TopPlayerCard(
     name: String,
     points: Int,
     color: Color,
-    height: androidx.compose.ui.unit.Dp
+    height: androidx.compose.ui.unit.Dp,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = Modifier
-            .weight(1f)
-            .height(height),
+        modifier = modifier.height(height),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = color.copy(alpha = 0.2f)
